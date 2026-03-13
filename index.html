@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Fitness AI</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">Fitness AI</div>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#generator">Plan Generator</a></li>
+                <li><button id="logoutBtn" class="logout-btn">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Start Your Transformation Journey Today</h1>
+                <p>Get AI-powered, highly personalized workout and diet plans in seconds.</p>
+                <a href="#generator" class="cta-btn">Get Started</a>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <div class="about-image">
+                    <!-- Image will be set via CSS background -->
+                </div>
+                <div class="about-text">
+                    <h2>About Fitness AI</h2>
+                    <p>We believe that premium, personalized fitness guidance shouldn't be locked behind expensive
+                        personal trainers. That's why we built Fitness AI.</p>
+                    <p>Our intelligent system analyzes your unique body profile, experience level, and goals to
+                        instantly generate a comprehensive workout and diet plan tailored specifically for you.</p>
+                    <ul class="about-list">
+                        <li><span>✔</span> Data-driven recommendations</li>
+                        <li><span>✔</span> Adapts to your schedule</li>
+                        <li><span>✔</span> 100% free to use</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <h2>Why Choose Fitness AI?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Personalized Workouts</h3>
+                    <p>Tailored exercises based on your experience, goals, and schedule.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Smart Nutrition</h3>
+                    <p>Custom dietary recommendations aligning with your lifestyle.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Instant Generation</h3>
+                    <p>No waiting - our AI crafts your comprehensive plan immediately.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="generator" class="form-section">
+            <h2>Generate Your Custom Plan</h2>
+            <p class="form-subtitle">Fill in your details below and let our AI do the rest.</p>
+
+            <form id="fitnessForm" class="fitness-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="E.g. John Doe" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" placeholder="E.g. 25">
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" placeholder="E.g. 175">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="E.g. 70">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal">Primary Goal</label>
+                        <select id="goal">
+                            <option>Muscle Gain</option>
+                            <option>Fat Loss</option>
+                            <option>Maintain</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="diet">Dietary Preference</label>
+                        <select id="diet">
+                            <option>Vegetarian</option>
+                            <option>Non-Vegetarian</option>
+                            <option>Vegan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="experience">Experience Level</label>
+                        <select id="experience">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="days">Training Days/Week</label>
+                        <select id="days">
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="generateBtn">Generate My Plan</button>
+                <div id="result" class="result-container"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Fitness AI. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
