@@ -655,3 +655,13 @@ img{
   }
 
 }
+
+@media (max-width:768px){
+
+  .navbar ul{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+  }
+
+}
