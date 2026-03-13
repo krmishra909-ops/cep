@@ -691,3 +691,48 @@ img{
   }
 
 }
+
+/* ================= AUTH PHONE COMPATIBILITY ================= */
+
+@media (max-width:768px){
+
+  .auth-page{
+    padding:30px 15px;
+    align-items:flex-start;
+  }
+
+  .auth-container{
+    max-width:100%;
+    padding:35px 25px;
+    border-radius:16px;
+  }
+
+  .auth-logo{
+    font-size:2.2rem;
+  }
+
+  .auth-container h2{
+    font-size:1.8rem;
+  }
+
+  .auth-subtitle{
+    font-size:0.95rem;
+  }
+
+  .auth-form input,
+  .auth-form select{
+    font-size:1rem;
+    padding:14px 16px;
+  }
+
+  .auth-btn{
+    width:100%;
+    font-size:1.3rem;
+    padding:14px;
+  }
+
+  .auth-link{
+    font-size:0.9rem;
+  }
+
+}
