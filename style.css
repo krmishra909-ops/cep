@@ -617,3 +617,41 @@ footer {
     min-height: 300px;
   }
 }
+
+/* ================= PHONE COMPATIBILITY ONLY ================= */
+
+img{
+  max-width:100%;
+  height:auto;
+}
+
+@media (max-width:768px){
+
+  /* stack form fields vertically */
+  .form-row{
+    flex-direction:column;
+    gap:0;
+  }
+
+  /* slightly reduce large headings */
+  .hero-content h1{
+    font-size:4rem;
+  }
+
+  .form-section h2{
+    font-size:3rem;
+  }
+
+  /* reduce padding so sections fit small screens */
+  .features-section,
+  .form-section{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  /* prevent form overflow */
+  .fitness-form{
+    width:100%;
+  }
+
+}
