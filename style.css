@@ -665,3 +665,29 @@ img{
   }
 
 }
+
+
+
+/* Fix navbar button alignment on phones */
+@media (max-width:768px){
+
+  .navbar ul{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+  }
+
+  .navbar li{
+    display:flex;
+    align-items:center;
+  }
+
+  .navbar a,
+  .logout-btn{
+    height:38px;
+    display:flex;
+    align-items:center;
+  }
+
+}
