@@ -1,0 +1,817 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --card: #16161f;
+  --border: rgba(255,255,255,0.07);
+  --accent: #e8ff47;
+  --accent-dim: rgba(232, 255, 71, 0.12);
+  --accent-glow: rgba(232, 255, 71, 0.25);
+  --text: #f0f0f5;
+  --muted: #6b6b80;
+  --danger: #ff4757;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-x: hidden;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Radial glow bg */
+body::after {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(232,255,71,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 8px;
+  position: relative;
+}
+
+h1 span {
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-bottom: 40px;
+  letter-spacing: 0.02em;
+}
+
+#fitnessForm {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 48px 44px;
+  box-shadow:
+    0 0 0 1px rgba(232,255,71,0.04),
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 100px rgba(232,255,71,0.03);
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-header {
+  margin-bottom: 36px;
+}
+
+/* Corner accent */
+#fitnessForm::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 40px;
+  width: 80px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0 0 4px 4px;
+}
+
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.field-full {
+  margin-bottom: 14px;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6b80' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+input::placeholder {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+input:focus,
+select:focus {
+  border-color: rgba(232,255,71,0.4);
+  background: #1a1a24;
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 0 20px rgba(232,255,71,0.04);
+}
+
+select option {
+  background: #1a1a24;
+  color: var(--text);
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Section divider */
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 24px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Days selector - custom pill style */
+.days-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.days-selector label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.days-selector input[type="radio"] {
+  display: none;
+}
+
+.days-selector .day-pill {
+  display: block;
+  text-align: center;
+  padding: 11px 6px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.days-selector input[type="radio"]:checked + .day-pill {
+  background: var(--accent-dim);
+  border-color: rgba(232,255,71,0.4);
+  color: var(--accent);
+}
+
+.days-selector label:hover .day-pill {
+  border-color: rgba(232,255,71,0.25);
+  color: var(--text);
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  margin-top: 28px;
+  padding: 16px;
+  background: var(--accent);
+  color: #0a0a0f;
+  border: none;
+  border-radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232,255,71,0.35);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(232,255,71,0.2);
+}
+
+button[type="submit"].loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Result */
+#result {
+  margin-top: 28px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text);
+  display: none;
+}
+
+#result.visible {
+  display: block;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Staggered field animation */
+#fitnessForm > * {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  #fitnessForm {
+    padding: 36px 24px;
+    border-radius: 20px;
+  }
+
+  .field-group,
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+}
+#logoutBtn{
+position:absolute;
+top:20px;
+right:20px;
+padding:10px 15px;
+background:#e8ff47;
+border:none;
+cursor:pointer;
+}
+
+
+/* ============================================
+FITNESS AI — PREMIUM STYLE.CSS
+Theme: Dark Athletic / Premium Gym
+Fonts: Barlow Condensed + Outfit
+============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ─── CSS VARIABLES ───────────────────────── */
+:root{
+--bg-deep:#080810;
+--bg-mid:#0f0f1a;
+--bg-card:#13131e;
+--bg-input:#0c0c16;
+
+--border:rgba(255,255,255,0.06);
+--border-focus:rgba(255,200,0,0.55);
+
+--gold:#ffc800;
+--gold-soft:rgba(255,200,0,0.15);
+--gold-glow:rgba(255,200,0,0.30);
+
+--white:#f4f4f8;
+--grey:#5a5a72;
+--grey-light:#9a9ab5;
+
+--radius-sm:10px;
+--radius-md:16px;
+--radius-lg:24px;
+
+--transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── RESET ─────────────────────────────── */
+*,
+*::before,
+*::after{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+/* ─── BODY ─────────────────────────────── */
+body{
+
+background:var(--bg-deep);
+color:var(--white);
+font-family:'Outfit',sans-serif;
+
+min-height:100vh;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+padding:50px 20px;
+
+overflow-x:hidden;
+
+animation:pageFade .8s ease;
+}
+
+/* subtle stripe texture */
+body::before{
+content:'';
+position:fixed;
+inset:0;
+
+background-image:repeating-linear-gradient(
+-55deg,
+transparent,
+transparent 60px,
+rgba(255,200,0,.015) 60px,
+rgba(255,200,0,.015) 61px
+);
+
+pointer-events:none;
+}
+
+/* ambient radial glow */
+body::after{
+content:'';
+position:fixed;
+top:-200px;
+left:50%;
+transform:translateX(-50%);
+
+width:900px;
+height:700px;
+
+background:radial-gradient(
+ellipse at center,
+rgba(255,200,0,.06),
+transparent 65%
+);
+
+pointer-events:none;
+}
+
+/* ─── TITLE ─────────────────────────────── */
+h1{
+
+font-family:'Barlow Condensed',sans-serif;
+font-weight:900;
+
+font-size:clamp(3rem,8vw,6rem);
+
+text-transform:uppercase;
+
+text-align:center;
+
+letter-spacing:-.02em;
+
+margin-bottom:48px;
+
+text-shadow:0 0 60px rgba(255,200,0,.15);
+
+animation:titleDrop .8s cubic-bezier(.16,1,.3,1) both;
+}
+
+h1::after{
+content:'';
+display:block;
+width:70px;
+height:4px;
+
+background:var(--gold);
+
+margin:14px auto 0;
+
+border-radius:2px;
+
+box-shadow:0 0 20px var(--gold-glow);
+}
+
+/* ─── FORM CARD ───────────────────────── */
+#fitnessForm{
+
+width:100%;
+max-width:520px;
+
+background:linear-gradient(
+180deg,
+rgba(255,255,255,.02),
+rgba(255,255,255,.01)
+);
+
+border:1px solid var(--border);
+
+border-radius:var(--radius-lg);
+
+padding:44px 40px;
+
+backdrop-filter:blur(14px);
+
+box-shadow:
+0 30px 80px rgba(0,0,0,.75),
+0 0 0 1px rgba(255,200,0,.05);
+
+position:relative;
+
+animation:cardRise .7s .1s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* glowing top bar */
+#fitnessForm::before{
+
+content:'';
+
+position:absolute;
+top:0;
+left:0;
+right:0;
+
+height:3px;
+
+background:linear-gradient(
+90deg,
+transparent,
+var(--gold),
+#ffaa00
+);
+
+animation:goldPulse 6s ease-in-out infinite;
+}
+
+/* ─── INPUTS ───────────────────────── */
+input,
+select{
+
+width:100%;
+
+background:var(--bg-input);
+
+border:1px solid var(--border);
+
+border-radius:var(--radius-sm);
+
+padding:14px 18px;
+
+margin-bottom:16px;
+
+color:var(--white);
+
+font-family:'Outfit',sans-serif;
+
+font-size:.95rem;
+
+outline:none;
+
+transition:var(--transition);
+
+appearance:none;
+}
+
+input::placeholder{
+color:var(--grey);
+font-size:.88rem;
+}
+
+input:hover,
+select:hover{
+
+transform:translateY(-1px);
+
+box-shadow:0 6px 18px rgba(0,0,0,.5);
+
+border-color:rgba(255,200,0,.25);
+}
+
+input:focus,
+select:focus{
+
+border-color:var(--border-focus);
+
+background:#0e0e1a;
+
+box-shadow:
+0 0 0 3px var(--gold-soft),
+0 4px 20px rgba(255,200,0,.08);
+}
+
+select{
+
+cursor:pointer;
+
+background-image:url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235a5a72' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+background-repeat:no-repeat;
+background-position:right 16px center;
+
+padding-right:40px;
+}
+
+/* ─── BUTTON ───────────────────────── */
+button[type="submit"]{
+
+width:100%;
+
+padding:16px;
+
+margin-top:8px;
+
+border:none;
+
+border-radius:var(--radius-sm);
+
+background:var(--gold);
+
+color:#080810;
+
+font-family:'Barlow Condensed',sans-serif;
+
+font-size:1.2rem;
+
+font-weight:800;
+
+letter-spacing:.12em;
+
+text-transform:uppercase;
+
+cursor:pointer;
+
+position:relative;
+
+overflow:hidden;
+
+transition:var(--transition);
+}
+
+/* shine sweep */
+button[type="submit"]::before{
+
+content:'';
+
+position:absolute;
+
+top:0;
+left:-100%;
+
+width:60%;
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.3),
+transparent
+);
+
+transition:left .55s ease;
+}
+
+button[type="submit"]:hover::before{
+left:160%;
+}
+
+button[type="submit"]:hover{
+
+background:#ffd426;
+
+transform:translateY(-2px);
+
+box-shadow:
+0 10px 30px rgba(255,200,0,.45),
+0 0 60px rgba(255,200,0,.2);
+}
+
+button[type="submit"]:active{
+transform:translateY(1px);
+}
+
+/* ─── RESULT CARD ───────────────────────── */
+#result{
+
+margin-top:26px;
+
+padding:22px;
+
+border-radius:14px;
+
+background:linear-gradient(
+135deg,
+rgba(255,200,0,.05),
+rgba(255,200,0,.02)
+);
+
+border:1px solid rgba(255,200,0,.18);
+border-left:4px solid var(--gold);
+
+font-size:.95rem;
+
+line-height:1.8;
+
+color:var(--grey-light);
+
+box-shadow:
+0 0 30px rgba(255,200,0,.06),
+inset 0 0 40px rgba(255,200,0,.02);
+}
+
+#result h2{
+
+color:var(--gold);
+
+font-family:'Barlow Condensed',sans-serif;
+
+letter-spacing:.08em;
+
+margin-bottom:10px;
+}
+
+#result h3{
+
+color:#ffd84d;
+
+margin-top:14px;
+margin-bottom:6px;
+
+font-size:1rem;
+}
+
+/* ─── LOGOUT BUTTON ───────────────────────── */
+#logoutBtn{
+
+position:absolute;
+top:30px;
+right:30px;
+
+padding:10px 16px;
+
+border-radius:12px;
+
+border:1px solid rgba(255,255,255,.08);
+
+background:transparent;
+
+color:var(--grey-light);
+
+font-size:.8rem;
+
+letter-spacing:.08em;
+
+text-transform:uppercase;
+
+cursor:pointer;
+
+transition:var(--transition);
+
+backdrop-filter:blur(10px);
+}
+
+#logoutBtn:hover{
+
+color:var(--gold);
+
+border-color:rgba(255,200,0,.4);
+
+background:rgba(255,200,0,.05);
+
+box-shadow:0 0 25px rgba(255,200,0,.2);
+}
+
+/* ─── ANIMATIONS ───────────────────────── */
+@keyframes pageFade{
+from{opacity:0;transform:translateY(15px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes titleDrop{
+from{opacity:0;transform:translateY(-20px) scale(.97)}
+to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@keyframes cardRise{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes goldPulse{
+0%{opacity:.6}
+50%{opacity:1}
+100%{opacity:.6}
+}
+
+/* ─── MOBILE ───────────────────────── */
+@media(max-width:560px){
+
+#fitnessForm{
+padding:36px 24px;
+}
+
+h1{
+font-size:3rem;
+margin-bottom:36px;
+}
+
+}
+
+@media(max-width:380px){
+
+h1{
+font-size:2.6rem;
+}
+
+#fitnessForm{
+padding:28px 18px;
+}
+
+}
